@@ -1,59 +1,83 @@
 <template>
-  <form @submit.prevent="register">
-    <label for="name">
+  <form @submit.prevent="handleRegister">
+    <label for="username">
       Name:
-      <input id="name" v-model="username" type="text" name="name" />
+      <input
+        ref="username"
+        id="username"
+        v-model="user.username"
+        type="text"
+        name="name"
+      />
     </label>
     <label for="email">
       Email:
-      <input id="email" v-model="email" type="email" name="email" />
+      <input
+        ref="email"
+        id="email"
+        v-model="user.email"
+        type="email"
+        name="email"
+      />
     </label>
     <label for="password">
       Password:
-      <input id="password" v-model="password" type="password" name="password" />
+      <input
+        ref="password"
+        id="password"
+        v-model="user.password"
+        type="password"
+        name="password"
+      />
     </label>
     <button type="submit" name="button">
       Register
     </button>
-    <ul>
-      <li v-for="(error, key, index) in errors" :key="index">
-        {{ key }}: {{ error[0] }}
-      </li>
-    </ul>
-    <router-link to="/login">
+    <router-link :to="{ name: 'register' }">
       Already have an account? Login.
     </router-link>
   </form>
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapActions } = createNamespacedHelpers("auth");
+
 export default {
   name: "RegisterUser",
   data() {
     return {
-      username: "",
-      email: "",
-      password: "",
-      errors: null
+      user: {
+        username: "",
+        email: "",
+        password: ""
+      }
     };
   },
+  computed: {
+    ...mapGetters(["loggedIn"])
+  },
+  created() {
+    this.loggedIn && this.$router.push({ name: "dashboard" });
+  },
   methods: {
-    register() {
-      this.$store
-        .dispatch("register", {
-          username: this.username,
-          email: this.email,
-          password: this.password
-        })
-        .then(() => {
-          this.$router.push({ name: "dashboard" });
-        })
-        .catch(err => {
-          this.errors = err.response.data;
-        });
+    ...mapActions(["register"]),
+    async handleRegister() {
+      try {
+        for (const property in this.user) {
+          this.$refs[property].classList.remove("error");
+        }
+        await this.register(this.user);
+        await this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        const data = err.response.data;
+        for (const property in data) {
+          this.$refs[property]?.classList.add("error");
+        }
+      }
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

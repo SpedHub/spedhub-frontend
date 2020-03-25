@@ -9,23 +9,25 @@
     <router-link v-if="!loggedIn" to="/login">
       Login
     </router-link>
-    <button v-else type="button" @click="logout">
+    <button v-else type="button" @click="handleLogout">
       Logout
     </button>
   </div>
 </template>
 
 <script>
-import { authComputed } from "../store/helpers";
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapActions } = createNamespacedHelpers("auth");
 
 export default {
   name: "AppNav",
   computed: {
-    ...authComputed
+    ...mapGetters(["loggedIn"])
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout");
+    ...mapActions(["logout"]),
+    handleLogout() {
+      this.logout();
     }
   }
 };

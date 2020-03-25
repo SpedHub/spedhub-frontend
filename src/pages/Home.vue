@@ -15,12 +15,13 @@
 </template>
 
 <script>
-import { authComputed } from "../store/helpers";
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters } = createNamespacedHelpers("auth");
 
 export default {
   name: "Home",
   computed: {
-    ...authComputed
+    ...mapGetters(["loggedIn"])
   }
 };
 </script>

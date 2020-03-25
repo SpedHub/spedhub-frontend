@@ -1,49 +1,72 @@
 <template>
-  <form @submit.prevent="login">
+  <form @submit.prevent="handleLogin">
     <label for="username">
       Username:
-      <input id="username" v-model="username" type="text" name="username"/>
+      <input
+        ref="username"
+        id="username"
+        v-model="user.username"
+        type="text"
+        name="username"
+      />
     </label>
     <label for="password">
       Password:
-      <input id="password" v-model="password" type="password" name="password"/>
+      <input
+        ref="password"
+        id="password"
+        v-model="user.password"
+        type="password"
+        name="password"
+      />
     </label>
     <button type="submit" name="button">
       Login
     </button>
-    <p>{{ error }}</p>
-    <router-link to="/register">
+    <router-link :to="{ name: 'login' }">
       Don't have a account? Register.
     </router-link>
   </form>
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapGetters, mapActions } = createNamespacedHelpers("auth");
 export default {
   name: "LoginUser",
   data() {
     return {
-      username: "",
-      password: "",
-      error: null
+      user: {
+        username: "",
+        password: ""
+      }
     };
   },
+  computed: {
+    ...mapGetters(["loggedIn"])
+  },
+  created() {
+    this.loggedIn && this.$router.push({ name: "dashboard" });
+  },
   methods: {
-    login() {
-      this.$store
-        .dispatch("login", {
-          username: this.username,
-          password: this.password
-        })
-        .then(() => {
-          this.$router.push({ name: "dashboard" });
-        })
-        .catch(err => {
-          this.error = err.response.data.non_field_errors[0];
-        });
+    ...mapActions(["login"]),
+    async handleLogin() {
+      try {
+        for (const property in this.user) {
+          this.$refs[property].classList.remove("error");
+        }
+        await this.login(this.user);
+        await this.$router.push({ name: "dashboard" });
+      } catch (err) {
+        const data = err.response.data;
+        for (const property in data) {
+          this.$refs[property]?.classList.add("error");
+        }
+      }
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+</style>

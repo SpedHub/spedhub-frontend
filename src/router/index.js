@@ -6,6 +6,8 @@ import RegisterUser from "../pages/RegisterUser";
 import LoginUser from "../pages/LoginUser";
 import Dashboard from "../pages/Dashboard";
 
+import UserService from "@/common/user.service";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -39,9 +41,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem("user");
+  const loggedIn = UserService.user();
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
-    next("/");
+    next({ name: "login" });
   }
   next();
 });
