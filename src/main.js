@@ -7,6 +7,7 @@ import ApiService from "./common/api.service";
 import UserService from "./common/user.service";
 import "./assets/scss/shared.scss";
 import vuetify from "./plugins/vuetify";
+import vuelidate from "./plugins/vuelidate";
 
 Vue.config.productionTip = false;
 ApiService.init();
@@ -23,5 +24,6 @@ new Vue({
   },
 
   vuetify,
+  vuelidate,
   render: h => h(App)
 }).$mount("#app");
