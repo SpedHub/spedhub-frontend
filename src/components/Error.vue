@@ -16,10 +16,12 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Error",
-  data: () => ({
-    alert: false,
-    text: "test"
-  }),
+  data() {
+    return {
+      alert: false,
+      text: "test"
+    };
+  },
   computed: {
     ...mapGetters(["error"])
   },

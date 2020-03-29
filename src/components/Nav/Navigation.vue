@@ -5,30 +5,32 @@ const auth = createNamespacedHelpers("auth");
 
 export default {
   name: "Navigation",
-  data: () => ({
-    links: [
-      {
-        label: "Home",
-        url: "/",
-        show: null
-      },
-      {
-        label: "Login",
-        url: "/login",
-        show: null
-      },
-      {
-        label: "Dashboard",
-        url: "/dashboard",
-        show: null
-      },
-      {
-        label: "Logout",
-        url: "/logout",
-        show: null
-      }
-    ]
-  }),
+  data() {
+    return {
+      links: [
+        {
+          label: "Home",
+          url: "/",
+          show: null
+        },
+        {
+          label: "Login",
+          url: "/login",
+          show: null
+        },
+        {
+          label: "Dashboard",
+          url: "/dashboard",
+          show: null
+        },
+        {
+          label: "Logout",
+          url: "/logout",
+          show: null
+        }
+      ]
+    };
+  },
   computed: {
     ...auth.mapGetters(["loggedIn"]),
     activeLinks() {
