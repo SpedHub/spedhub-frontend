@@ -61,14 +61,13 @@
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
 import Authorization from "./Authorization";
 
 export default {
-  name: "RegisterUser",
+  name: "Register",
   components: {
     Authorization
   }
