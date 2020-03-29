@@ -8,7 +8,6 @@ export default {
     ApiService.setHeader();
   },
   CLEAR_USER() {
-    location.reload();
     UserService.destroyUser();
   }
 };

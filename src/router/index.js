@@ -1,11 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
-import Home from "../pages/Home";
-import RegisterUser from "../pages/RegisterUser";
-import LoginUser from "../pages/LoginUser";
-import Dashboard from "../pages/Dashboard";
-
 import UserService from "@/common/user.service";
 
 Vue.use(VueRouter);
@@ -13,24 +7,24 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "home",
+    component: () => import("../pages/Home")
   },
   {
     path: "/dashboard",
     name: "dashboard",
-    component: Dashboard,
+    component: () => import("../pages/Dashboard"),
     meta: { requiresAuth: true }
   },
   {
     path: "/register",
     name: "register",
-    component: RegisterUser
+    component: () => import("../pages/Auth/Register")
   },
   {
     path: "/login",
     name: "login",
-    component: LoginUser
+    component: () => import("../pages/Auth/Login")
   }
 ];
 
@@ -44,8 +38,7 @@ router.beforeEach((to, from, next) => {
   const loggedIn = UserService.user();
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next({ name: "login" });
-  }
-  next();
+  } else next();
 });
 
 export default router;

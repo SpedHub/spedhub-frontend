@@ -1,17 +1,21 @@
 <template>
-  <div id="app">
+  <v-app>
     <app-nav />
-    <router-view />
-  </div>
+    <v-content>
+      <router-view />
+    </v-content>
+    <app-footer />
+  </v-app>
 </template>
 
 <script>
-import AppNav from "./components/AppNav";
+import AppNav from "./components/Nav/AppNav";
+import AppFooter from "./components/Nav/AppFooter";
 export default {
   name: "App",
   components: {
-    AppNav
+    AppNav,
+    AppFooter
   }
 };
 </script>
-<style lang="scss"></style>
