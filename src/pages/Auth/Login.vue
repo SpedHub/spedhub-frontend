@@ -51,7 +51,7 @@
 <script>
 import Authorization from "./Authorization";
 export default {
-  name: "LoginUser",
+  name: "Login",
   components: {
     Authorization
   }
