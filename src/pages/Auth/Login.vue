@@ -3,7 +3,11 @@
     <v-row>
       <v-col>
         <authorization>
-          <v-card slot-scope="{ user, config, login }" class="mx-auto mt-5" max-width="800">
+          <v-card
+            slot-scope="{ user, config, login }"
+            class="mx-auto mt-5"
+            max-width="800"
+          >
             <v-card-title>
               <h1 class="display-1">Login</h1>
             </v-card-title>
